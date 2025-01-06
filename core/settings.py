@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # Auth App
     "djoser",
     # Local Apps
+    'accounts',
 ]
 
 MIDDLEWARE = [
