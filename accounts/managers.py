@@ -33,6 +33,7 @@ class UserManager(BaseUserManager):
         """
         # Superuser must always have the role set to 'admin'
         extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_admin", True)
         return self.create_user(
             email,
             username,

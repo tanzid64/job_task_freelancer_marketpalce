@@ -1,5 +1,6 @@
 import os
 import environ
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,7 +19,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
+ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     # Auth App
     "djoser",
     # Local Apps
-    'accounts',
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -136,8 +137,37 @@ REST_FRAMEWORK = {
 
 # Simple JWT Settings
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
-} 
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=12),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+# Djoser Settings
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": True,  # To use confirm password
+    "ACTIVATION_URL": "/activate/{uid}/{token}",  # Email Activation Url
+    "SEND_ACTIVATION_EMAIL": True,  # To send activation email
+    "SEND_CONFIRMATION_EMAIL": True,  # To send confirmation email
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,  # To send password changed email
+    "PASSWORD_RESET_CONFIRM_URL": "/password/reset/confirm/{uid}/{token}",  # Password Reset Url
+    "SET_PASSWORD_RETYPE": True,  # To use confirm password
+    "PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND": True,  # To show error if email not found
+    "TOKEN_MODEL": None,
+    # Serializers
+    "SERIALIZERS": {
+        "user_create": "accounts.serializers.UserCreateSerializer",
+        "user": "accounts.serializers.UserCreateSerializer",
+        "user_delete": "djoser.serializers.UserDeleteSerializer",
+    },
+    # Permissions
+    "PERMISSIONS": {
+        "user_delete": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+    },
+}
 
 # Email Configurations
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
