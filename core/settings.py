@@ -20,6 +20,7 @@ DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
+AUTH_USER_MODEL = "accounts.User"
 
 # Application definition
 
@@ -125,3 +126,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Cors Header Settings
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
+
+# Rest Framework Settings
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
+# Simple JWT Settings
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
+} 
