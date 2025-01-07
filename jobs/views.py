@@ -18,7 +18,6 @@ class JobViewSet(ModelViewSet):
     filter_backends = (
         DjangoFilterBackend,
         SearchFilter,
-        OrderingFilter,
     )
     filterset_class = JobFilter
     search_fields = ("title",)
@@ -49,8 +48,9 @@ class JobViewSet(ModelViewSet):
             permission_classes = [IsJobCreatorOrAdminOnly]
         return [permission() for permission in permission_classes]
 
-    def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+    def create(self, request, *args, **kwargs):
+        request.data["created_by"] = request.user.id
+        return super().create(request, *args, **kwargs)
 
     def perform_update(self, serializer):
         serializer.save(created_by=self.request.user)
