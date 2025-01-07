@@ -42,10 +42,7 @@ management..
 ---
 
 ## API Documentation
-
-- **Swagger API Documentation**: `GET /api/v1/documentation/`
-- **Download Schema**: `GET /api/v1/schema/`
-- **Postman API Documentation**: `GET /api/v1/schema/`
+- **Postman API Documentation**: `https://documenter.getpostman.com/view/32603042/2sAYJAeHfX`
 
 ---
 
@@ -54,25 +51,73 @@ management..
 
 Clone the repo and go to the project root.
 ```bash
-git clone https://github.com/tanzid64/job_task_freelancer_marketpalce.git
+git clone https://github.com/tanzid64/project-management-techforing.git
 ```
-```bash
-cd 
-```
+***Setup .env file***
+- `SECRET_KEY` : 
+- `DEBUG` : 
+- `DATABASE_URL` : 
+- `EMAIL_HOST` : 
+- `EMAIL_HOST_USER` : 
+- `EMAIL_HOST_PASSWORD` : 
+- `EMAIL_PORT` : 
+
 **Docker Setup**
+---
+***if your machine supports Makefile***
+***Build***
+```bash
+make build
+```
+***Up***
+```bash
+make up
+```
+***Down***
+```bash
+make down
+```
+***Show Logs***
+```bash
+make logs
+```
+***Show App Logs***
+```bash
+make show-logs-api
+```
+***Access App Terminal***
+```bash
+make bash-api
+```
+---
+***if your machine doesn't supports Makefile***
+***Build***
+```bash
+docker compose -f docker-compose.yml up --build -d --remove-orphans
+```
+***Up***
+```bash
+docker compose -f docker-compose.yml up -d
+```
+***Down***
+```bash
+docker compose -f docker-compose.yml down
+```
+***Show Logs***
+```bash
+docker compose -f docker-compose.yml logs
+```
+***Show App Logs***
+```bash
+docker compose -f docker-compose.yml logs api
+```
+***Access App Terminal***
+```bash
+docker exec -it freelancer_marketplace_api bash
+```
+---
 
-```bash
-sudo docker compose up --build --remove-orphans -d
-```
-***Bash***
-```bash
-sudo docker exec -it <container name> bash
-```
-***Logs***
-```bash
-sudo docker logs <container name>
-```
-
+---
 **Local Machine Setup**
 ```bash
 virtualenv .venv
@@ -80,24 +125,34 @@ virtualenv .venv
 ```bash
 source .venv/bin/activate
 ```
-***Set up the .env file***
-
-`.env.example > .env`
-
-In your `.env` set the following environment variables:
-
-- `SECRET_KEY` : Your Secret Key.
-- `DEBUG` : True / False.
-- `DATABASE_URL` : Your Postgres Database URL.
-
+```bash
+pip install -r requirements.txt
+```
 ```bash
 python manage.py migrate
 ```
-***To run test cases***
+---
+***To Seed Database***
 ```bash
-python manage.py test
+python manage.py seed_users
+```
+```bash
+python manage.py seed_jobs
+```
+Db seed user's password: example@123
+Db seed user admin: admin1@example.com
+Db seed user admin password: admin@123
+
+***Create Superuser***
+```bash
+python manage.py createsuperuser
 ```
 ***Run server***
 ```bash
 python manage.py runserver
 ```
+---
+
+### Dev Server Info
+---
+Link: https://job-task-freelancer-marketpalce.onrender.com

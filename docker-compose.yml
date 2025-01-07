@@ -9,6 +9,8 @@ services:
       - "8001:8001"
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgresql://user:password@db/freelancer_marketplace
     volumes:
       - .:/app:z
     depends_on:
@@ -22,8 +24,10 @@ services:
     container_name: freelancer_marketplace_db
     ports:
       - "5439:5432"
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=freelancer_marketplace
     volumes:
       - freelancer_marketplace_db:/var/lib/postgresql/data
     networks:
