@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
 from accounts.permissions import IsClient
 from jobs.filters import JobFilter
+from jobs.pagination import JobCursorPagination
 from jobs.permissions import IsJobCreatorOrAdminOnly
 from jobs.serializers import JobSerializer
 from jobs.models import Job
@@ -15,6 +16,7 @@ User = get_user_model()
 class JobViewSet(ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+    pagination_class = JobCursorPagination
     filter_backends = (
         DjangoFilterBackend,
         SearchFilter,
@@ -23,15 +25,6 @@ class JobViewSet(ModelViewSet):
     search_fields = ("title",)
     lookup_field = "slug"
     http_method_names = ["get", "post", "patch", "delete"]
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        sort_order = self.request.query_params.get("ordering", "desc") # Default to descending order
-        if sort_order == "asc":
-            queryset = queryset.order_by("created_at")
-        elif sort_order == "desc":
-            queryset = queryset.order_by("-created_at")
-        return queryset
-
 
     def get_permissions(self):
         """
