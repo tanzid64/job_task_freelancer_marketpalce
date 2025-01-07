@@ -18,6 +18,8 @@ class UserManager(BaseUserManager):
             raise ValueError("The Username field is required.")
         if not name:
             raise ValueError("The Name field is required.")
+        if not role:
+            raise ValueError("The Role field is required.")
 
         email = self.normalize_email(email)
         user = self.model(

@@ -13,8 +13,8 @@ class Job(models.Model):
         IN_PROGRESS = "in_progress", "In_Progress"
 
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="jobs")
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=255)
     description = models.TextField()
     status = models.CharField(
         max_length=15, choices=JobStatus.choices, default=JobStatus.OPEN

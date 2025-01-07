@@ -1,0 +1,36 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: freelancer_marketplace_api:latest
+    container_name: freelancer_marketplace_api
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    volumes:
+      - .:/app:z
+    depends_on:
+      - db
+    networks:
+      - freelancer_marketplace_nw
+    restart: unless-stopped
+
+  db:
+    image: postgres:latest
+    container_name: freelancer_marketplace_db
+    ports:
+      - "5439:5432"
+    env_file:
+      - .env
+    volumes:
+      - freelancer_marketplace_db:/var/lib/postgresql/data
+    networks:
+      - freelancer_marketplace_nw
+
+volumes:
+  freelancer_marketplace_db: {}
+
+networks:
+  freelancer_marketplace_nw:

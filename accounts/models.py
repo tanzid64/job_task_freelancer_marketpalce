@@ -29,7 +29,7 @@ class User(AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name", "username", 'role']
+    REQUIRED_FIELDS = ["name", "username"]
     objects = UserManager()
 
     def __str__(self):
