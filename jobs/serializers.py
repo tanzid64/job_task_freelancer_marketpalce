@@ -24,12 +24,13 @@ class JobSerializer(serializers.ModelSerializer):
             "created_by",
             "title",
             "slug",
+            "status",
             "description",
             "creator",
             "created_at",
             "updated_at",
         )
-        read_only_fields = ("id", "created_at", "updated_at", "slug")
+        read_only_fields = ("id", "created_at", "updated_at", "slug", "status")
         extra_kwargs = {
             "created_by": {"write_only": True},
         }
